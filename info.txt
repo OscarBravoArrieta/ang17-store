@@ -1,0 +1,144 @@
+ 0. Creación del proyecto:
+     ng new ang-store --standalone --skip-tests
+
+ //------------------------------------------------------------------------------------------------
+
+ 1. Dividir la aplicación en moduilos o dominios, crear una carpeta en src llamada domains y dentro de ella crear carpetas segn necesitas
+     ng generate component domains/products/pages/list
+     ng generate component domains/products/components/product
+
+ //------------------------------------------------------------------------------------------------
+2. Instalación de la extensión de chrome Angular dev tools
+
+ //------------------------------------------------------------------------------------------------
+ 3. Ciclo de vida de componentes
+
+     constructor: No async. Before render. Solo corre una vez
+     ngOnchanges: before and during the render. Recibe un parámetro que contiene los objetos ngOnChanges(changes: SimpleChanges) y puede detectar cambios independientes
+     ngOnInit: After render, Una vez, async, then, subs
+     ngDoCheck
+        ngAfterContentInit
+        ngAfterContentCheck
+        ngAfterViewInit: After render. After render your childs
+
+        ngAfterViewCheck
+    ngOnDestroy
+
+    crear componentes
+
+    ng g c domains/shared/components/counter
+    ng g c domains/info/pages/about
+
+ 4. Detectando cambios en los inputs
+      ngOnChanges(changes: SimpleChanges) {
+         const duration = changes['duration']
+         if (duration && duration.currentValue !== duration.previousValue) {
+             this.doSomethings()
+         }
+     }
+ 5.  Audio player con ngAfterViewInit
+     Instalando la librería wavesurfer.js: npm install --save wavesurfer.js
+     Crear un nuevo componente: ng generate component domains/info/components/wave-audio
+
+     Colocarle una referencia a un elemento (Es con el signo nueral): <div #wave></div>, Esto sirve para saber cuando un elemento es renderizado
+     Se recibe en el ts file asi:  @ViewChild('wave') container!: ElementRef
+
+ 4. Generar un nuevo componente
+     ng g c domains/shared/components/header
+
+5. Creando el carrito de compras: https://platzi.com/new-home/clases/8352-angular/65985-creando-el-carrito-de-compras/
+   La idea es que aparezca un side bar en la parte izquierda, para ello se debe aplicar dinaminacmente la clase: translate-x-full
+
+
+6. El problema del prop drilling
+   https://platzi.com/new-home/clases/8352-angular/65998-el-problema-del-prop-drilling/
+
+   El Prop Drilling es una paso del desarrollo que ocurre cuando necesitamos obtener datos que están en varias capas en el árbol de componentes
+   Este problema se resuelve con un servicio que actuaría como estado
+
+7. Reactividad con signals en servicios
+   https://platzi.com/new-home/clases/8352-angular/65999-reactividad-con-signals-en-servicios/
+
+   ng generate service domains/shared/services/cart
+
+8. Creat un nuevo sercicio para acceder a la api: https://fakeapi.platzi.com/
+
+   ng generate service domains/shared/services/product
+
+   importar provideHttpClient en app.config
+
+9. Importaciones cortas en Typescript
+   En el archivo tsconfig.json, en el nodo compilerOptions, generar path
+     "paths":{
+         "@shared/*": ["./src/app/domains/shared/*"]
+     }
+
+10. Construyendo tu propio pipe
+     ng generate pipe domains/shared/pipes/reverse
+     ng generate pipe domains/shared/pipes/time-ago
+
+11. Utilizando librerías de JavaScript en Angular
+    Instalando librerias para el manejo de fechas: npm i date-fns
+
+12. Conociendo las directivas
+     Las directicvas son herramientas para hacer manipulaciones del DOM en forma directa
+     ng generate directive domains/shared/directives/highlight
+
+13. Deployando un proyecto en Vercel
+     https://platzi.com/new-home/clases/8352-angular/66007-deployando-un-proyecto-en-vercel/
+
+14. Ruta 404
+     ng generate component domains/info/pages/not-found
+
+15. Uso del RouterLink
+     import { RouterLinkWithHref } from '@angular/router'
+
+16. Compnentes anidados
+     ng generate component domains/shared/components/layout
+
+17. Uso del RouterLinkActive
+    Importat import { RouterLinkWithHref, RouterLinkActive } from '@angular/router'
+                <a
+               routerLink="/about"
+               routerLinkActive="underline"
+              class="block hover:underline"
+              >About</a
+            >
+
+18. Detalle de cada producto
+     ng generate component domains/products/pages/product-detail
+
+19. Obteniendo datos del producto
+     Para que los parámetros de las rutas lleguen como @input, se debe hacer una configuración adicional en el app.config
+     import { provideRouter, withComponentInputBinding } from '@angular/router'
+
+          providers: [
+         provideRouter(routes, withComponentInputBinding()),
+         provideHttpClient()
+     ]
+
+20. Crear un servicio para las categorías:
+     ng generate service domains/shared/services/category
+
+
+21. Url Params
+ https://platzi.com/new-home/clases/8352-angular/66017-url-params/
+ Qun query param es opcional y un url param es obligatorio
+
+ Un query param es ?category_id=12
+ import { RouterLinkWithHref } from '@angular/router'
+
+ <a routerLink="/" [queryParams]="{category_id: category.id}">{{ category.name }}</a>
+
+
+https://gist.github.com/nicobytes/ba2252b0b5ac2cbdafc40c0accd24862
+
+
+
+
+
+
+
+
+
+
