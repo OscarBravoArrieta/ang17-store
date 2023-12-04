@@ -9,16 +9,16 @@
      selector: 'app-about',
      standalone: true,
      imports: [
-         CommonModule,
-         CounterComponent,
-         WaveAudioComponent,
-         HighlightDirective,
-         HeaderComponent
-     ],
+    CommonModule,
+    CounterComponent,
+    WaveAudioComponent,
+    HighlightDirective,
+    HeaderComponent
+],
      templateUrl: './about.component.html',
      styleUrl: './about.component.scss'
  })
- export class AboutComponent {
+ export default class AboutComponent {
      duration = signal(1000)
      message = signal('Hola mundo')
 

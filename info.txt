@@ -130,6 +130,74 @@
 
  <a routerLink="/" [queryParams]="{category_id: category.id}">{{ category.name }}</a>
 
+ 21. LazyLoading y Code Splitting
+
+ LazyLoading y Code Splitting, hace referencia a que la aplicación cargue más rápido, bajando el peso de los archivos, sobre todo el peso de los archivos javascript. mejorando la experiencia de usuario.
+
+ Cada vez que el navegador empieza a solicitar una página web, hace un initial request. El navegador empieza a leer esta página, a medida que va encontrando links, en este orden, si encuentra un arcivo css, va al servidor de archivos estáticos y lo obtiene
+ Sucede igual con los archivos javascript y también con las imagenes.
+
+Los archivos de javascript, tienen un proceso en particular,
+Cuando hay peticiones de archivos javascript suceden cuatro pasos y c cada uno de estos pasos puede tardar un tiempo en específico
+
+ descargar
+ parsear
+ Conmpilar
+ Ejecutar
+
+ La descarga es la que mas demora
+
+ Optimizando el peso del archivo:
+
+ En angular existe un empaquetador que transpila el arcivo de typescript a javascript y luego hace un proceso de compresión para que quede lo más liviano posible,
+ el empaquetador toma todos los componentes y directivas son puestos en un archivo en especifico llamado main.js
+
+ La técnica LazyLoading y Code Splitting se refiere a no dejar esto en un solo archivo sino en especificarle al empaquetador que , ddivida el /los archivos en varios pedazos para diminuir el peso de los archivos.
+
+ Una de las técnicas más usada es la del routing que va haciendo solicitudes a medida que el usuario va navegando por las rutas y va visitando links.
+ El proceso solo se hace en ese momento y no es necesario descargar y  mimificar todos los archivos de la aplicación
+
+ 22. Aplicando LazyLoading
+
+ La forma de decirle a Angular que no genere un archivo grande con todo el peso y que lo haga a nivel de rutas, es dándole una indicación a cada componente y decirle que sea un chunk o pedazo que solo lo corra cuando el usuario esté en esa ruta.
+
+ esto se logra haciendo el siguiente cambio en el archivo de rutas:
+
+{
+     path: '',
+     component: ListComponent
+},
+
+{
+    path: '',
+    loadComponent: () => import('./domains/products/pages/list/list.component').then(m => m.ListComponent)
+},
+
+NOTA Importante: Si queremos ahorrarnos el .then, deberiamos hacer que el componente al que estamos invocando sea export default
+
+ export default class ListComponent {} y quedaría en el archivo de rutas de la siguiente forma
+
+ 23. Prefetching
+  La desventaja de generar chunks es que cada uno de los archivos o chunks tiene que pasar por las cuatro fases.
+
+  Prefetching, consiste en decirle a angular que aproveche los tiempos de inactividad que se dan después de la carga inicial para realizar el precargue del resto de los chunks, sin que el usuario tenga que hacer click
+
+  La configuración de se logra haciendo esta configuración en app.config:
+
+   import { PreloadAllModules, provideRouter, withComponentInputBinding, withPreloading } from '@angular/router'
+
+    export const appConfig: ApplicationConfig = {
+     providers: [
+         provideRouter(routes, withComponentInputBinding(), withPreloading(PreloadAllModules)),
+         provideHttpClient()
+     ]
+ }
+
+ 24. Usando la nueva sintaxis de Angular 17
+
+ ng generate @angular/core:control-flow
+
+
 
 https://gist.github.com/nicobytes/ba2252b0b5ac2cbdafc40c0accd24862
 

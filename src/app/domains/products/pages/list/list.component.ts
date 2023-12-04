@@ -13,15 +13,15 @@
      selector: 'app-list',
      standalone: true,
      imports: [
-         CommonModule,
-         ProductComponent,
-         HeaderComponent,
-         RouterLinkWithHref
-     ],
+    CommonModule,
+    ProductComponent,
+    HeaderComponent,
+    RouterLinkWithHref
+],
      templateUrl: './list.component.html',
      styleUrl: './list.component.scss'
  })
- export class ListComponent {
+ export default class ListComponent {
 
      products = signal<Product[]>([])
      categories = signal<Category[]>([])

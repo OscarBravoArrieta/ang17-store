@@ -11,7 +11,7 @@
      templateUrl: './product-detail.component.html',
      styleUrl: './product-detail.component.scss'
  })
- export class ProductDetailComponent {
+ export default class ProductDetailComponent {
 
      @Input() id?: string
      product = signal<Product | null>(null)
